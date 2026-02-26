@@ -1,8 +1,3 @@
-
-
-using System.Data.Common;
-using System.Runtime.CompilerServices;
-
 public static class Weapon
 {
 
