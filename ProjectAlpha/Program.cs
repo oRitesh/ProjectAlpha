@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-﻿
-=======
-﻿using System;
-
->>>>>>> 287e84da976e5b18a976777232acbd1069dede29
 class Program
 {
     static void Main()
