@@ -13,4 +13,10 @@ public class Player
         this.MaximumHitPoints = maximumHitPoints;
         this.Name = name;
     }
+
+        public void TakeDamage(int damage)
+    {
+        CurrentHitPoints -= damage;
+    }
+
 }
