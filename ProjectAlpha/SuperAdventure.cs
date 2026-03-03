@@ -1,3 +1,7 @@
+using System.Diagnostics.Contracts;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+
 public class SuperAdventure
 {
     public string CurrentMonster;
