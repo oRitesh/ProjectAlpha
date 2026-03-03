@@ -9,4 +9,9 @@ public class Monster
         this.Id = id;
         this.Name = name;
     }
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHitPoints -= damage;
+    }
 }
