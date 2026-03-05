@@ -39,7 +39,7 @@
         }
         static void CheckForQuest(Player player)
         {
-            quest = player.CurrentLocation.QuestAvailableHere;
+            Quest quest = player.CurrentLocation.QuestAvailableHere;
 
             if (quest == null) return;
             if (acceptedQuests.Contains(quest.ID)) return;
