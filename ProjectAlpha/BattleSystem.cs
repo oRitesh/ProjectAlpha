@@ -46,7 +46,6 @@ public static class BattleSystem
             if (monster.CurrentHitPoints <= 0)
             {
                 Console.WriteLine("You defeated the " + monster.Name + "!");
-                //Console.WriteLine("You gained " + monster.RewardExperiencePoints + " experience points and " + monster.RewardGold + " gold.");
                 return true;
             }
             else if (player.CurrentHitPoints <= 0)

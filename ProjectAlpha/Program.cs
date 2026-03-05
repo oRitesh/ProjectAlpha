@@ -13,6 +13,7 @@ class Program
             100,
             World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD),
             World.LocationByID(World.LOCATION_ID_HOME),
+            null,
             "Hero"
         );
         player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
@@ -115,7 +116,7 @@ class Program
 
         if (currentKills < 3)
         {
-            monster.CurrentHitPoints = monster.MaximumHitPoints;
+            monster.CurrentHitPoints = monster.MaximumDamage; // Reset monster's HP for next battle
             return;
         }
 

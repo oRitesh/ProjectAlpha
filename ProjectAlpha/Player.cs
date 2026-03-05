@@ -1,7 +1,7 @@
 using System.Configuration.Assemblies;
 using System.Runtime.CompilerServices;
 
-public static class Player
+public class Player
 {
     public string Name { get; set; }
 
@@ -35,7 +35,7 @@ public static class Player
         CurrentPotion = currentPotion;
     }
 
-    public static List<> Inventory()
+    public static List<string> Inventory()
     {
 
         return Inventory();
