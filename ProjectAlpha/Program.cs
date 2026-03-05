@@ -72,10 +72,16 @@ class Program
 
         bool battleResult = BattleSystem.StartBattle(player, monster);
 
-        if (!battleResult)
+        if (!battleResult && player.CurrentHitPoints <= 0)
         {
             Console.WriteLine("Game Over!");
             Environment.Exit(0);
+        }
+
+        else if (!battleResult)
+        {
+            Console.WriteLine("You fled from the battle.");
+            return;
         }
 
         else if (battleResult)
