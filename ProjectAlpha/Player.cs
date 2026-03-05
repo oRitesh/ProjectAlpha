@@ -10,6 +10,8 @@ public class Player
 
     public Location CurrentLocation { get; set; }
 
+    public string username { get; set; }
+
     public Player(int maximumHitPoints, Weapon currentWeapon, Location currentLocation, string name)
     {
         Name = name;
