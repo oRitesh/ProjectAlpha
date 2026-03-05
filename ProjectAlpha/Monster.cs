@@ -13,6 +13,11 @@ public class Monster
     public void TakeDamage(int damage)
     {
         CurrentHitPoints -= damage;
+
+        if (CurrentHitPoints < 0)
+        {
+            CurrentHitPoints = 0;
+        }
     }
 
     public Monster(int id, string name, int maximumDamage, int rewardExperiencePoints, int rewardGold)

@@ -15,6 +15,11 @@ public class Player
     public void TakeDamage(int damage)
     {
         CurrentHitPoints -= damage;
+
+        if (CurrentHitPoints < 0)
+        {
+            CurrentHitPoints = 0;
+        }
     }
 
     public Player(int maximumHitPoints, Weapon currentWeapon, Location currentLocation, string name)
