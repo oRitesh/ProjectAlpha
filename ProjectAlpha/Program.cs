@@ -42,6 +42,16 @@ class Program
             MovePlayer(player, input);
         }
     }
+
+    static void CheckForHealing(Player player)
+    {
+        if (player.CurrentLocation.ID == World.LOCATION_ID_HOME
+            && player.CurrentHitPoints < player.MaximumHitPoints)
+        {
+            player.CurrentHitPoints = player.MaximumHitPoints;
+            Console.WriteLine("You rest at home and recover your health.");
+        }
+    }
     static void CheckForQuest(Player player)
     {
         Quest quest = player.CurrentLocation.QuestAvailableHere;
@@ -68,7 +78,6 @@ class Program
 
         if (monster == null)
         {
-            Console.WriteLine("There are no monsters here.");
             return;
         }
 
