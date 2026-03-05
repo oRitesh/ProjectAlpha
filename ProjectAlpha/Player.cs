@@ -1,6 +1,7 @@
 using System.Configuration.Assemblies;
+using System.Runtime.CompilerServices;
 
-public class Player
+public static class Player
 {
     public string Name { get; set; }
 
@@ -12,6 +13,8 @@ public class Player
 
     public Location CurrentLocation { get; set; }
 
+    public Potion CurrentPotion { get; set; }
+
     public void TakeDamage(int damage)
     {
         CurrentHitPoints -= damage;
@@ -22,12 +25,19 @@ public class Player
         }
     }
 
-    public Player(int maximumHitPoints, Weapon currentWeapon, Location currentLocation, string name)
+    public Player(int maximumHitPoints, Weapon currentWeapon, Location currentLocation, Potion currentPotion, string name)
     {
         Name = name;
         MaximumHitPoints = maximumHitPoints;
         CurrentHitPoints = maximumHitPoints;
         CurrentWeapon = currentWeapon;
         CurrentLocation = currentLocation;
+        CurrentPotion = currentPotion;
+    }
+
+    public static List<> Inventory()
+    {
+
+        return Inventory();
     }
 }
