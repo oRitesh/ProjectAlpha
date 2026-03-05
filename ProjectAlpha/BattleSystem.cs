@@ -30,7 +30,7 @@ public static class BattleSystem
                 Console.WriteLine("The " + monster.Name + " has " + monster.CurrentHitPoints + " HP left.");
             }
 
-            bool isMonsterHit = new Random().NextDouble() > MonsterHitChance;
+            bool isMonsterHit = new Random().NextDouble() >= MonsterHitChance;
             if (isMonsterHit)
             {
                 Console.WriteLine("The " + monster.Name + "'s attack missed!");
