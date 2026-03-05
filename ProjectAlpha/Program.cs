@@ -1,61 +1,100 @@
-    class Program
+using System.Configuration.Assemblies;
+
+class Program
+{
+    static List<int> acceptedQuests = new List<int>();
+    static List<int> completedQuests = new List<int>();
+    static void Main()
     {
-        static List<int> acceptedQuests = new List<int>();
-        static List<int> completedQuests = new List<int>();
-        static void Main()
+        Player player = new Player(
+            100,
+            World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD),
+            World.LocationByID(World.LOCATION_ID_HOME),
+            "Hero"
+        );
+        player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
+
+        while (true)
         {
-            Player player = new Player(
-                100,
-                World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD),
-                World.LocationByID(World.LOCATION_ID_HOME),
-                "Hero"
-            );
-            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
+            Console.WriteLine();
+            Console.WriteLine("You are at: " + player.CurrentLocation.Name);
+            Console.WriteLine(player.CurrentLocation.Description);
+            Console.WriteLine();
 
-            while (true)
+            CheckForQuest(player);
+
+            CheckForMonster(player);
+
+            CheckForQuestCompletion(player);
+
+
+            ShowAvailableDirections(player);
+
+            Console.Write("Enter direction (N/E/S/W) or Q to quit: ");
+            string input = (Console.ReadLine() ?? "").Trim().ToUpper();
+
+            if (input == "Q")
+                break;
+
+            MovePlayer(player, input);
+        }
+    }
+    static void CheckForQuest(Player player)
+    {
+        quest = player.CurrentLocation.QuestAvailableHere;
+
+        if (quest == null) return;
+        if (acceptedQuests.Contains(quest.ID)) return;
+
+        Console.WriteLine($"[QUEST] {quest.Name}");
+        Console.WriteLine($"  {quest.Description}");
+        Console.Write("Accept quest? (Y/N): ");
+        string answer = (Console.ReadLine() ?? "").Trim().ToUpper();
+
+        if (answer == "Y")
+        {
+            acceptedQuests.Add(quest.ID);
+            Console.WriteLine($"Quest accepted: {quest.Name}");
+        }
+    }
+
+    static void CheckForMonster(Player player)
+    {
+        int killCounter = 0;
+
+        Monster monster = player.CurrentLocation.MonsterLivingHere;
+
+        if (monster == null)
+        {
+            Console.WriteLine("There are no monsters here.");
+            return;
+        }
+
+        bool battleResult = BattleSystem.StartBattle(player, monster);
+
+        if (!battleResult)
+        {
+            Console.WriteLine("Game Over!");
+            Environment.Exit(0);
+        }
+
+        else if (battleResult)
+        {
+            killCounter++;
+            if (!killCounter == 3)
             {
-                Console.WriteLine();
-                Console.WriteLine("You are at: " + player.CurrentLocation.Name);
-                Console.WriteLine(player.CurrentLocation.Description);
-                Console.WriteLine();
-
-                CheckForQuest(player);
-
-                CheckForMonster(player);
-
-                CheckForQuestCompletion(player);
-
-
-                ShowAvailableDirections(player);
-
-                Console.Write("Enter direction (N/E/S/W) or Q to quit: ");
-                string input = (Console.ReadLine() ?? "").Trim().ToUpper();
-
-                if (input == "Q")
-                    break;
-
-                MovePlayer(player, input);
+                monster.CurrentHitPoints = monster.MaximumHitPoints;
             }
         }
-        static void CheckForQuest(Player player)
+
+        else
         {
-            quest = player.CurrentLocation.QuestAvailableHere;
-
-            if (quest == null) return;
-            if (acceptedQuests.Contains(quest.ID)) return;
-
-            Console.WriteLine($"[QUEST] {quest.Name}");
-            Console.WriteLine($"  {quest.Description}");
-            Console.Write("Accept quest? (Y/N): ");
-            string answer = (Console.ReadLine() ?? "").Trim().ToUpper();
-
-            if (answer == "Y")
-            {
-                acceptedQuests.Add(quest.ID);
-                Console.WriteLine($"Quest accepted: {quest.Name}");
-            }
+            Console.WriteLine("You have defeated all the monsters in this location!");
+            player.CurrentLocation.MonsterLivingHere = null;
         }
-        static void CheckForQuestCompletion(Player player)
+
+    }
+    static void CheckForQuestCompletion(Player player)
     {
         if (player.CurrentLocation.ID == World.LOCATION_ID_ALCHEMIST_HUT
             && acceptedQuests.Contains(World.QUEST_ID_CLEAR_ALCHEMIST_GARDEN)
@@ -82,55 +121,55 @@
         }
     }
 
-        static void ShowAvailableDirections(Player player)
-        {
-            Console.WriteLine("You can move:");
+    static void ShowAvailableDirections(Player player)
+    {
+        Console.WriteLine("You can move:");
 
-            if (player.CurrentLocation.LocationToNorth != null)
-                Console.WriteLine("N - " + player.CurrentLocation.LocationToNorth.Name);
+        if (player.CurrentLocation.LocationToNorth != null)
+            Console.WriteLine("N - " + player.CurrentLocation.LocationToNorth.Name);
 
-            if (player.CurrentLocation.LocationToEast != null)
-                Console.WriteLine("E - " + player.CurrentLocation.LocationToEast.Name);
+        if (player.CurrentLocation.LocationToEast != null)
+            Console.WriteLine("E - " + player.CurrentLocation.LocationToEast.Name);
 
-            if (player.CurrentLocation.LocationToSouth != null)
-                Console.WriteLine("S - " + player.CurrentLocation.LocationToSouth.Name);
+        if (player.CurrentLocation.LocationToSouth != null)
+            Console.WriteLine("S - " + player.CurrentLocation.LocationToSouth.Name);
 
-            if (player.CurrentLocation.LocationToWest != null)
-                Console.WriteLine("W - " + player.CurrentLocation.LocationToWest.Name);
+        if (player.CurrentLocation.LocationToWest != null)
+            Console.WriteLine("W - " + player.CurrentLocation.LocationToWest.Name);
 
-            Console.WriteLine();
-        }
-
-        static void MovePlayer(Player player, string direction)
-        {
-            Location newLocation = null;
-
-            switch (direction)
-            {
-                case "N":
-                    newLocation = player.CurrentLocation.LocationToNorth;
-                    break;
-                case "E":
-                    newLocation = player.CurrentLocation.LocationToEast;
-                    break;
-                case "S":
-                    newLocation = player.CurrentLocation.LocationToSouth;
-                    break;
-                case "W":
-                    newLocation = player.CurrentLocation.LocationToWest;
-                    break;
-                default:
-                    Console.WriteLine("Invalid direction.");
-                    return;
-            }
-
-            if (newLocation == null)
-            {
-                Console.WriteLine("You cannot go that way.");
-                return;
-            }
-
-            player.CurrentLocation = newLocation;
-            Console.WriteLine("You moved to: " + player.CurrentLocation.Name);
-        }
+        Console.WriteLine();
     }
+
+    static void MovePlayer(Player player, string direction)
+    {
+        Location newLocation = null;
+
+        switch (direction)
+        {
+            case "N":
+                newLocation = player.CurrentLocation.LocationToNorth;
+                break;
+            case "E":
+                newLocation = player.CurrentLocation.LocationToEast;
+                break;
+            case "S":
+                newLocation = player.CurrentLocation.LocationToSouth;
+                break;
+            case "W":
+                newLocation = player.CurrentLocation.LocationToWest;
+                break;
+            default:
+                Console.WriteLine("Invalid direction.");
+                return;
+        }
+
+        if (newLocation == null)
+        {
+            Console.WriteLine("You cannot go that way.");
+            return;
+        }
+
+        player.CurrentLocation = newLocation;
+        Console.WriteLine("You moved to: " + player.CurrentLocation.Name);
+    }
+}
