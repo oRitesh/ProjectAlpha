@@ -1,22 +1,21 @@
 public class Player
 {
-    public int CurrentHitPoints;
-    public string CurrentLocation;
-    public string CurrentWeapon;
-    public int MaximumHitPoints;
-    public string Name;
-    public Player(int currentHitPoints, string currentLocation, string currentWeapon, int maximumHitPoints, string name)
-    {
-        this.CurrentHitPoints = currentHitPoints;
-        this.CurrentLocation = currentLocation;
-        this.CurrentWeapon = currentWeapon;
-        this.MaximumHitPoints = maximumHitPoints;
-        this.Name = name;
-    }
+    public string Name { get; set; }
 
-        public void TakeDamage(int damage)
-    {
-        CurrentHitPoints -= damage;
-    }
+    public int CurrentHitPoints { get; set; }
 
+    public int MaximumHitPoints { get; set; }
+
+    public Weapon CurrentWeapon { get; set; }
+
+    public Location CurrentLocation { get; set; }
+
+    public Player(int maximumHitPoints, Weapon currentWeapon, Location currentLocation, string name)
+    {
+        Name = name;
+        MaximumHitPoints = maximumHitPoints;
+        CurrentHitPoints = maximumHitPoints;
+        CurrentWeapon = currentWeapon;
+        CurrentLocation = currentLocation;
+    }
 }

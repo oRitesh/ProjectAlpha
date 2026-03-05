@@ -1,20 +1,13 @@
 public class Weapon
 {
+    public int ID { get; }
+    public string Name { get; }
+    public int MaximumDamage { get; }
 
-    public int Id;
-    public int MaximumDamage;
-    public string Name;
-
-    public Weapon(int id, int maximumDamage, string name)
+    public Weapon(int id, string name, int maximumDamage)
     {
-        this.Id = id;
-        this.MaximumDamage = maximumDamage;
-        this.Name = name;
+        ID = id;
+        Name = name;
+        MaximumDamage = maximumDamage;
     }
-
-    public void Attack()
-    {
-        
-    }
-
 }

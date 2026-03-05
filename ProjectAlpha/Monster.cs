@@ -1,17 +1,20 @@
 public class Monster
 {
-    public string Description;
-    public int Id;
-    public string Name;
-    public Monster(string description, int id, string name)
-    {
-        this.Description = description;
-        this.Id = id;
-        this.Name = name;
-    }
+    public int ID { get; }
+    public string Name { get; }
+    public int MaximumDamage { get; }
+    public int RewardExperiencePoints { get; }
+    public int RewardGold { get; }
 
-    public void TakeDamage(int damage)
+    public int CurrentHitPoints { get; set; }
+
+    public Monster(int id, string name, int maximumDamage, int rewardExperiencePoints, int rewardGold)
     {
-        CurrentHitPoints -= damage;
+        ID = id;
+        Name = name;
+        MaximumDamage = maximumDamage;
+        RewardExperiencePoints = rewardExperiencePoints;
+        RewardGold = rewardGold;
+        CurrentHitPoints = 10;
     }
 }

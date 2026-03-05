@@ -1,7 +1,6 @@
 public static class BattleSystem
 {
-    public static BattleSystem()
+    static BattleSystem()
     {
-
     }
 }

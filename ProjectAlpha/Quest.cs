@@ -1,12 +1,13 @@
 public class Quest
 {
-    public string Description;
-    public int Id;
-    public string Name;
-    public Quest(string description, int id, string name)
+    public int ID { get; }
+    public string Name { get; }
+    public string Description { get; }
+
+    public Quest(int id, string name, string description)
     {
-        this.Description = description;
-        this.Id = id;
-        this.Name = name;
+        ID = id;
+        Name = name;
+        Description = description;
     }
 }
