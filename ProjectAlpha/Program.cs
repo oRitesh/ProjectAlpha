@@ -4,6 +4,9 @@ class Program
 {
     static List<int> acceptedQuests = new List<int>();
     static List<int> completedQuests = new List<int>();
+    static int ratsKilled = 0;
+    static int snakesKilled = 0;
+    static int spidersKilled = 0;
     static void Main()
     {
         Player player = new Player(
@@ -41,7 +44,7 @@ class Program
     }
     static void CheckForQuest(Player player)
     {
-        quest = player.CurrentLocation.QuestAvailableHere;
+        Quest quest = player.CurrentLocation.QuestAvailableHere;
 
         if (quest == null) return;
         if (acceptedQuests.Contains(quest.ID)) return;
@@ -60,7 +63,6 @@ class Program
 
     static void CheckForMonster(Player player)
     {
-        int killCounter = 0;
 
         Monster monster = player.CurrentLocation.MonsterLivingHere;
 
@@ -72,25 +74,38 @@ class Program
 
         bool battleResult = BattleSystem.StartBattle(player, monster);
 
-        if (!battleResult && player.CurrentHitPoints <= 0)
+        if (player.CurrentHitPoints <= 0)
         {
             Console.WriteLine("Game Over!");
             Environment.Exit(0);
         }
 
-        else if (!battleResult)
+        if (!battleResult)
         {
             Console.WriteLine("You fled from the battle.");
             return;
         }
 
-        else if (battleResult)
+        if (monster.ID == World.MONSTER_ID_RAT) ratsKilled++;
+        else if (monster.ID == World.MONSTER_ID_SNAKE) snakesKilled++;
+        else if (monster.ID == World.MONSTER_ID_GIANT_SPIDER) spidersKilled++;
+
+        if (monster.ID == World.MONSTER_ID_RAT)
+            Console.WriteLine($"Rats defeated: {ratsKilled}/3");
+        else if (monster.ID == World.MONSTER_ID_SNAKE)
+            Console.WriteLine($"Snakes defeated: {snakesKilled}/3");
+        else if (monster.ID == World.MONSTER_ID_GIANT_SPIDER)
+            Console.WriteLine($"Spiders defeated: {spidersKilled}/3");
+
+        int currentKills =
+            monster.ID == World.MONSTER_ID_RAT ? ratsKilled :
+            monster.ID == World.MONSTER_ID_SNAKE ? snakesKilled :
+            spidersKilled;
+
+        if (currentKills < 3)
         {
-            killCounter++;
-            if (!killCounter == 3)
-            {
-                monster.CurrentHitPoints = monster.MaximumHitPoints;
-            }
+            monster.CurrentHitPoints = monster.MaximumHitPoints;
+            return;
         }
 
         else
@@ -104,7 +119,8 @@ class Program
     {
         if (player.CurrentLocation.ID == World.LOCATION_ID_ALCHEMIST_HUT
             && acceptedQuests.Contains(World.QUEST_ID_CLEAR_ALCHEMIST_GARDEN)
-            && !completedQuests.Contains(World.QUEST_ID_CLEAR_ALCHEMIST_GARDEN))
+            && !completedQuests.Contains(World.QUEST_ID_CLEAR_ALCHEMIST_GARDEN)
+            && ratsKilled >= 3)
         {
             Console.WriteLine("The alchemist checks your work...");
             Console.WriteLine("[QUEST COMPLETE] Clear the alchemist's garden!");
@@ -116,7 +132,8 @@ class Program
 
         if (player.CurrentLocation.ID == World.LOCATION_ID_FARMHOUSE
             && acceptedQuests.Contains(World.QUEST_ID_CLEAR_FARMERS_FIELD)
-            && !completedQuests.Contains(World.QUEST_ID_CLEAR_FARMERS_FIELD))
+            && !completedQuests.Contains(World.QUEST_ID_CLEAR_FARMERS_FIELD)
+            && snakesKilled >= 3)
         {
             Console.WriteLine("The farmer thanks you for clearing his field!");
             Console.WriteLine("[QUEST COMPLETE] Clear the farmer's field!");
