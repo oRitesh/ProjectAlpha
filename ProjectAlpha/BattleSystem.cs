@@ -55,5 +55,6 @@ public static class BattleSystem
                 return false;
             }
         }
+        return false;
     }
 }

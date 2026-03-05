@@ -26,6 +26,8 @@ class Program
 
             CheckForQuest(player);
 
+            CheckForHealing(player);
+
             CheckForMonster(player);
 
             CheckForQuestCompletion(player);
