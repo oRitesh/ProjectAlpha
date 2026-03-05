@@ -72,6 +72,12 @@ class Program
             acceptedQuests.Add(quest.ID);
             Console.WriteLine($"Quest accepted: {quest.Name}");
         }
+
+        else if (answer == "N")
+        {
+            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
+            Console.WriteLine("You declined the quest and returned to the town square.");
+        }
     }
 
     static void CheckForMonster(Player player)
