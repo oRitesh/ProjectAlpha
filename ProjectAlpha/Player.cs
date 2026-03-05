@@ -1,3 +1,5 @@
+using System.Configuration.Assemblies;
+
 public class Player
 {
     public string Name { get; set; }
@@ -10,7 +12,10 @@ public class Player
 
     public Location CurrentLocation { get; set; }
 
-    public string username { get; set; }
+    public void TakeDamage(int damage)
+    {
+        CurrentHitPoints -= damage;
+    }
 
     public Player(int maximumHitPoints, Weapon currentWeapon, Location currentLocation, string name)
     {

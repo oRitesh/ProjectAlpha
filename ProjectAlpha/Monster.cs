@@ -1,3 +1,5 @@
+using System.Xml.Serialization;
+
 public class Monster
 {
     public int ID { get; }
@@ -7,6 +9,11 @@ public class Monster
     public int RewardGold { get; }
 
     public int CurrentHitPoints { get; set; }
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHitPoints -= damage;
+    }
 
     public Monster(int id, string name, int maximumDamage, int rewardExperiencePoints, int rewardGold)
     {
