@@ -13,7 +13,6 @@ class Program
             100,
             World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD),
             World.LocationByID(World.LOCATION_ID_HOME),
-            null,
             "Hero"
         );
         player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
@@ -26,21 +25,22 @@ class Program
             Console.WriteLine();
 
             CheckForQuest(player);
-
             CheckForHealing(player);
-
             CheckForMonster(player);
-
             CheckForQuestCompletion(player);
-
-
             ShowAvailableDirections(player);
 
-            Console.Write("Enter direction (N/E/S/W) or Q to quit: ");
+            Console.Write("Enter direction (N/E/S/W), I for inventory, or Q to quit: ");
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
                 break;
+
+            if (input == "I")
+            {
+                player.ShowInventory();
+                continue;
+            }
 
             MovePlayer(player, input);
         }
@@ -72,7 +72,6 @@ class Program
             acceptedQuests.Add(quest.ID);
             Console.WriteLine($"Quest accepted: {quest.Name}");
         }
-
         else if (answer == "N")
         {
             player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
@@ -143,9 +142,11 @@ class Program
         {
             Console.WriteLine("The alchemist checks your work...");
             Console.WriteLine("[QUEST COMPLETE] Clear the alchemist's garden!");
-
             completedQuests.Add(World.QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
 
+            player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
+            player.Potions.Add(World.PotionByID(World.POTION_ID_STRENGTH));
+            Console.WriteLine("Reward: Heal Potion + Strength Potion added to your inventory!");
             Console.WriteLine("[NEW] Head to the Farmhouse for your next quest!");
         }
 
@@ -156,9 +157,10 @@ class Program
         {
             Console.WriteLine("The farmer thanks you for clearing his field!");
             Console.WriteLine("[QUEST COMPLETE] Clear the farmer's field!");
-
             completedQuests.Add(World.QUEST_ID_CLEAR_FARMERS_FIELD);
 
+            player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
+            Console.WriteLine("Reward: Heal Potion added to your inventory!");
             Console.WriteLine("[NEW] Head to the Bridge for your next quest!");
         }
     }

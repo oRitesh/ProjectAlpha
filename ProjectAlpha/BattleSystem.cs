@@ -10,15 +10,39 @@ public static class BattleSystem
         {
             Console.WriteLine("A - Attack");
             Console.WriteLine("F - Flee");
-            string choice = Console.ReadLine().ToUpper();
+            if (player.Potions.Count > 0)
+                Console.WriteLine("U - Use Potion");
+
+            string choice = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (choice == "F")
             {
+                ResetStrengthBonus(player);
                 return false;
             }
 
-            bool isPlayerHit = new Random().NextDouble() > PlayerHitChance;
-            if (isPlayerHit)
+            if (choice == "U" && player.Potions.Count > 0)
+            {
+                for (int i = 0; i < player.Potions.Count; i++)
+                {
+                    Potion p = player.Potions[i];
+                    string effect = p.HealAmount > 0 ? $"+{p.HealAmount} HP" : $"+{p.StrengthBonus} STR for 3 turns";
+                    Console.WriteLine($"{i + 1} - {p.Name} ({effect})");
+                }
+
+                Console.Write("Kies een potion (of 0 om te annuleren): ");
+                if (int.TryParse(Console.ReadLine(), out int index) && index >= 1 && index <= player.Potions.Count)
+                {
+                    Potion chosen = player.Potions[index - 1];
+                    chosen.Use(player);
+                    player.Potions.RemoveAt(index - 1);
+                }
+                continue;
+            }
+
+            // Player attacks
+            bool isPlayerHit = new Random().NextDouble() <= PlayerHitChance;
+            if (!isPlayerHit)
             {
                 Console.WriteLine("Your attack missed!");
                 Console.WriteLine("The " + monster.Name + " has " + monster.CurrentHitPoints + " HP left.");
@@ -26,16 +50,30 @@ public static class BattleSystem
             }
             else
             {
-                monster.TakeDamage(player.CurrentWeapon.MaximumDamage);
-                Console.WriteLine("You hit the " + monster.Name + " for " + player.CurrentWeapon.MaximumDamage + " damage.");
+                int totalDamage = player.CurrentWeapon.MaximumDamage + player.StrengthBonus;
+                monster.TakeDamage(totalDamage);
+                Console.WriteLine($"You hit the {monster.Name} for {totalDamage} damage.");
                 Console.WriteLine("The " + monster.Name + " has " + monster.CurrentHitPoints + " HP left.");
                 Console.WriteLine();
             }
 
+            if (player.StrengthBonusTurnsLeft > 0)
+            {
+                player.StrengthBonusTurnsLeft--;
+                Console.WriteLine($"Strength bonus: {player.StrengthBonusTurnsLeft} turns left.");
+
+                if (player.StrengthBonusTurnsLeft == 0)
+                {
+                    player.StrengthBonus = 0;
+                    Console.WriteLine("Your strength bonus has worn off.");
+                }
+            }
+
+            // Monster attacks
             if (monster.CurrentHitPoints > 0)
             {
-                bool isMonsterHit = new Random().NextDouble() >= MonsterHitChance;
-                if (isMonsterHit)
+                bool isMonsterHit = new Random().NextDouble() <= MonsterHitChance;
+                if (!isMonsterHit)
                 {
                     Console.WriteLine("The " + monster.Name + "'s attack missed!");
                     Console.WriteLine("You have " + player.CurrentHitPoints + " HP left.");
@@ -53,14 +91,21 @@ public static class BattleSystem
             if (monster.CurrentHitPoints <= 0)
             {
                 Console.WriteLine("You defeated the " + monster.Name + "!");
+                ResetStrengthBonus(player);
                 return true;
             }
             else if (player.CurrentHitPoints <= 0)
             {
                 Console.WriteLine("You were defeated by the " + monster.Name + "...");
+                ResetStrengthBonus(player);
                 return false;
             }
         }
-        return false;
+    }
+
+    private static void ResetStrengthBonus(Player player)
+    {
+        player.StrengthBonus = 0;
+        player.StrengthBonusTurnsLeft = 0;
     }
 }
