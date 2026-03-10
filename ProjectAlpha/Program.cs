@@ -66,7 +66,7 @@ class Program
 
         if (quest == null) return;
 
-        if (player.CurrentLocation.ID == World.LOCATION_ID_GUARD_HOUSE && completedQuests.Count != 2)
+        if (player.CurrentLocation.ID == World.LOCATION_ID_GUARD_POST && completedQuests.Count != 2)
         {
             Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'\n");
             Console.WriteLine("You returned to the town square.");
@@ -175,7 +175,7 @@ class Program
 
 
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
-            player.Potions.Add(World.WeaponByID(World.WEAPON_ID_FARMERS_PITCHFORK));
+            player.Weapons.Add(World.WeaponByID(World.WEAPON_ID_FARMERS_PITCHFORK));
             Console.WriteLine("\nReward: Heal Potion added to your inventory! + Farmer's Pitchfork added to your weapons!");
             Console.WriteLine("[NEW] Head to the Bridge for your next quest!\n");
         }

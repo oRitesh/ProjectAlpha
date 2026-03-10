@@ -43,7 +43,7 @@ public static class World
     public static void PopulateWeapons()
     {
         Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", 5));
-        Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", 10));
+        Weapons.Add(new Weapon(WEAPON_ID_FARMERS_PITCHFORK, "Farmers pitchfork", 10));
     }
 
     public static void PopulateMonsters()

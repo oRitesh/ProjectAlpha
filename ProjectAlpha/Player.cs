@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 public class Player
@@ -66,7 +67,7 @@ public class Player
 
         if (CurrentWeapon.ID != choiceInt)
         {
-            CurrentWeapon.ID =  choiceInt;
+            CurrentWeapon = Weapon.ID(choiceInt);
         }
         else if(choiceInt != 1 || choiceInt != 2)
         {
