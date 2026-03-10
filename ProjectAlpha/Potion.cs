@@ -21,6 +21,7 @@ public class Potion
             if (player.CurrentHitPoints > player.MaximumHitPoints)
                 player.CurrentHitPoints = player.MaximumHitPoints;
             Console.WriteLine($"You used a {Name} and healed {HealAmount} HP!");
+            Console.WriteLine($"Your current HP: {player.CurrentHitPoints}/{player.MaximumHitPoints}");
         }
 
         if (StrengthBonus > 0)
@@ -28,6 +29,7 @@ public class Potion
             player.StrengthBonus += StrengthBonus;
             player.StrengthBonusTurnsLeft = 3;
             Console.WriteLine($"You used a {Name} and gained {StrengthBonus} bonus damage for 3 turns!");
+            Console.WriteLine($"You currently deal {player.CurrentWeapon.MaximumDamage + player.StrengthBonus} damage with your weapon.");
         }
     }
 }

@@ -146,8 +146,8 @@ class Program
 
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
             player.Potions.Add(World.PotionByID(World.POTION_ID_STRENGTH));
-            Console.WriteLine("Reward: Heal Potion + Strength Potion added to your inventory!");
-            Console.WriteLine("[NEW] Head to the Farmhouse for your next quest!");
+            Console.WriteLine("\nReward: Heal Potion + Strength Potion added to your inventory!");
+            Console.WriteLine("[NEW] Head to the Farmhouse for your next quest!\n");
         }
 
         if (player.CurrentLocation.ID == World.LOCATION_ID_FARMHOUSE
@@ -160,8 +160,8 @@ class Program
             completedQuests.Add(World.QUEST_ID_CLEAR_FARMERS_FIELD);
 
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
-            Console.WriteLine("Reward: Heal Potion added to your inventory!");
-            Console.WriteLine("[NEW] Head to the Bridge for your next quest!");
+            Console.WriteLine("\nReward: Heal Potion added to your inventory!");
+            Console.WriteLine("[NEW] Head to the Bridge for your next quest!\n");
         }
     }
 
