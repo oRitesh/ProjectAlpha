@@ -176,16 +176,8 @@ class Program
 
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
             player.Potions.Add(World.WeaponByID(World.WEAPON_ID_FARMERS_PITCHFORK));
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-            Console.WriteLine("Reward: Heal Potion added to your inventory!");
-            Console.WriteLine("[NEW] Head to the Bridge for your next quest!");
-=======
             Console.WriteLine("\nReward: Heal Potion added to your inventory! + Farmer's Pitchfork added to your weapons!");
             Console.WriteLine("[NEW] Head to the Bridge for your next quest!\n");
->>>>>>> c3a651826920352f57fcd8ac3dbd8f5d7e2da691
         }
     }
 
