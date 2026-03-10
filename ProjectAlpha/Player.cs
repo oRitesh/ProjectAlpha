@@ -1,3 +1,5 @@
+using System.Xml.Serialization;
+
 public class Player
 {
     public string Name { get; set; }
@@ -46,5 +48,34 @@ public class Player
             foreach (Potion potion in Potions)
                 Console.WriteLine($"  - {potion.Name} ({(potion.HealAmount > 0 ? $"+{potion.HealAmount} HP" : $"+{potion.StrengthBonus} STR")})");
         }
+    }
+
+    public void SelectOutsideBattle()
+    {
+        Console.WriteLine("=== Select active weapon ===");
+        Console.WriteLine($"Current weapon: {CurrentWeapon.Name}");
+        Console.WriteLine($"All weapons:");
+        foreach (Weapon weapon in Weapons)
+        {
+            Console.WriteLine($"{weapon.ID} - {weapon.Name}");
+        }
+
+        string choice = Console.ReadLine();
+
+        int choiceInt = Convert.ToInt32(choice);
+
+        if (CurrentWeapon.ID != choiceInt)
+        {
+            CurrentWeapon.ID =  choiceInt;
+        }
+        else if(choiceInt != 1 || choiceInt != 2)
+        {
+            Console.WriteLine("Invalid choice, choice is not in the list!");
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice, weapon is already active!");
+        }
+
     }
 }

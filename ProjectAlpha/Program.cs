@@ -30,7 +30,7 @@ class Program
             CheckForQuestCompletion(player);
             ShowAvailableDirections(player);
 
-            Console.Write("Enter direction (N/E/S/W), I for inventory, or Q to quit: ");
+            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> ");
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
@@ -39,6 +39,11 @@ class Program
             if (input == "I")
             {
                 player.ShowInventory();
+                continue;
+            }
+            if (input == "C")
+            {
+                player.SelectOutsideBattle();
                 continue;
             }
 
@@ -60,6 +65,15 @@ class Program
         Quest quest = player.CurrentLocation.QuestAvailableHere;
 
         if (quest == null) return;
+
+        if (player.CurrentLocation.ID == World.LOCATION_ID_GUARD_HOUSE && completedQuests.Count != 2)
+        {
+            Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'\n");
+            Console.WriteLine("You returned to the town square.");
+            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
+            return;
+        }
+
         if (acceptedQuests.Contains(quest.ID)) return;
 
         Console.WriteLine($"[QUEST] {quest.Name}");
@@ -162,8 +176,16 @@ class Program
 
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
             player.Potions.Add(World.WeaponByID(World.WEAPON_ID_FARMERS_PITCHFORK));
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
             Console.WriteLine("Reward: Heal Potion added to your inventory!");
             Console.WriteLine("[NEW] Head to the Bridge for your next quest!");
+=======
+            Console.WriteLine("\nReward: Heal Potion added to your inventory! + Farmer's Pitchfork added to your weapons!");
+            Console.WriteLine("[NEW] Head to the Bridge for your next quest!\n");
+>>>>>>> c3a651826920352f57fcd8ac3dbd8f5d7e2da691
         }
     }
 
