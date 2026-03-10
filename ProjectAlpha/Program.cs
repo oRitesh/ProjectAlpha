@@ -16,6 +16,7 @@ class Program
             World.LocationByID(World.LOCATION_ID_HOME),
             "Hero"
         );
+        player.Weapons.Add(World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD));
         player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
 
         while (true)
