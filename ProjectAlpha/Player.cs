@@ -65,17 +65,18 @@ public class Player
 
         int choiceInt = Convert.ToInt32(choice);
 
-        if (CurrentWeapon.ID != choiceInt)
-        {
-            CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
-        }
-        else if(choiceInt != 1 || choiceInt != 2)
+        if(choiceInt != 1 && choiceInt != 2 && Weapons.Count != 2)
         {
             Console.WriteLine("Invalid choice, choice is not in the list!");
         }
-        else
+        else if (CurrentWeapon.ID == choiceInt)
         {
             Console.WriteLine("Invalid choice, weapon is already active!");
+        }
+        else
+        {
+            CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
+            Console.WriteLine($"You have selected the {CurrentWeapon.Name}");
         }
 
     }
