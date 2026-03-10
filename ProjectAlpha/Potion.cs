@@ -2,15 +2,17 @@ public class Potion
 {
     public int ID { get; }
     public string Name { get; }
+    public string Type { get; }
     public int HealAmount { get; }
     public int StrengthBonus { get; }
 
-    public Potion(int id, string name, int healAmount, int strengthBonus = 0)
+    public Potion(int id, string name, int healAmount, int strengthBonus = 0, string type = "Potion")
     {
         ID = id;
         Name = name;
         HealAmount = healAmount;
         StrengthBonus = strengthBonus;
+        Type = type;
     }
 
     public void Use(Player player)
