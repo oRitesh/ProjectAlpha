@@ -28,7 +28,7 @@ public class Player
         CurrentLocation = currentLocation;
     }
 
-    public static List<string> Inventory()
+    public static List<string> Inventory();
     public void ShowInventory()
     {
         Console.WriteLine("=== Inventory ===");
