@@ -28,8 +28,8 @@ public class Potion
         {
             player.StrengthBonus += StrengthBonus;
             player.StrengthBonusTurnsLeft = 3;
-            Console.WriteLine($"You used a {Name} and gained {StrengthBonus} bonus damage for 3 turns!");
-            Console.WriteLine($"You currently deal {player.CurrentWeapon.MaximumDamage + player.StrengthBonus} damage with your weapon.");
+            Console.WriteLine($"\nYou used a {Name} and gained {StrengthBonus} bonus damage for 3 turns!");
+            Console.WriteLine($"You currently deal {player.CurrentWeapon.MaximumDamage + player.StrengthBonus} damage with your weapon.\n");
         }
     }
 }
