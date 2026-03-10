@@ -37,7 +37,7 @@ public static class BattleSystem
                     chosen.Use(player);
                     player.Potions.RemoveAt(index - 1);
                 }
-                continue; // monster slaat niet terug na potion gebruik
+                continue;
             }
 
             // Player attacks
@@ -57,7 +57,6 @@ public static class BattleSystem
                 Console.WriteLine();
             }
 
-            // Verlaag strength bonus teller na aanval
             if (player.StrengthBonusTurnsLeft > 0)
             {
                 player.StrengthBonusTurnsLeft--;
