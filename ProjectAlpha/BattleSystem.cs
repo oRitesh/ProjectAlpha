@@ -101,6 +101,8 @@ public static class BattleSystem
                 return false;
             }
         }
+        ResetStrengthBonus(player);
+        return false;
     }
 
     private static void ResetStrengthBonus(Player player)
