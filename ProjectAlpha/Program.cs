@@ -30,7 +30,7 @@ class Program
             CheckForQuestCompletion(player);
             ShowAvailableDirections(player);
 
-            Console.Write("Enter direction (N/E/S/W), I for inventory, or Q to quit: ");
+            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> ");
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
@@ -39,6 +39,11 @@ class Program
             if (input == "I")
             {
                 player.ShowInventory();
+                continue;
+            }
+            if (input == "C")
+            {
+                player.SelectOutsideBattle();
                 continue;
             }
 
