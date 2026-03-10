@@ -48,15 +48,6 @@ class Program
                 player.SelectOutsideBattle();
                 continue;
             }
-
-            if (player.CurrentLocation.ID == World.LOCATION_ID_SPIDER_FIELD && completedQuests.Count == 3 && spidersKilled == 3)
-            {
-                Console.WriteLine($"\nCongrats, you've defeated all the monsters and finished the game, you will be remembered by the villagers for ages.");
-                Console.WriteLine($"Stats:\nRats killed: {ratsKilled}\nSnakes killed: {snakesKilled}\nSpiders killed: {spidersKilled}\nVillager happiness:  10/10");
-                Console.WriteLine($"You ended the game with:");
-                player.ShowInventory();
-                break;
-            }
             MovePlayer(player, input);
         }
     }
@@ -88,18 +79,20 @@ class Program
 
         Console.WriteLine($"[QUEST] {quest.Name}");
         Console.WriteLine($"        {quest.Description}");
-        Console.Write("Accept quest? (Y/N): ");
+        Console.Write("\nAccept quest? (Y/N): ");
         string answer = (Console.ReadLine() ?? "").Trim().ToUpper();
 
         if (answer == "Y")
         {
             acceptedQuests.Add(quest.ID);
+            Console.Clear();
             Console.WriteLine($"Quest accepted: {quest.Name}\n");
         }
         else if (answer == "N")
         {
             player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
             Console.WriteLine();
+            Console.Clear();
             Console.WriteLine("You declined the quest and returned to the town square.");
         }
     }
@@ -188,6 +181,22 @@ class Program
             player.Weapons.Add(World.WeaponByID(World.WEAPON_ID_FARMERS_PITCHFORK));
             Console.WriteLine("\nReward: Heal Potion added to your inventory! + Farmer's Pitchfork added to your weapons!");
             Console.WriteLine("[NEW] Head to the Bridge for your next quest!\n");
+        }
+
+        if (player.CurrentLocation.ID == World.LOCATION_ID_SPIDER_FIELD
+            && acceptedQuests.Contains(World.QUEST_ID_COLLECT_SPIDER_SILK)
+            && !completedQuests.Contains(World.QUEST_ID_COLLECT_SPIDER_SILK)
+            && spidersKilled >= 3)
+        {
+            Console.WriteLine("[QUEST COMPLETE] Collect spider silk!");
+            completedQuests.Add(World.QUEST_ID_COLLECT_SPIDER_SILK);
+
+            Console.WriteLine($"\nCongrats, you've defeated all the monsters and finished the game!");
+            Console.WriteLine($"Stats:\nRats killed: {ratsKilled}\nSnakes killed: {snakesKilled}\nSpiders killed: {spidersKilled}\nVillager happiness: 10/10");
+            Console.WriteLine($"You ended the game with: {player.CurrentHitPoints} HP");
+            Console.WriteLine($"This is what your inventory was looking like:");
+            player.ShowInventory();
+            Environment.Exit(0);
         }
     }
 

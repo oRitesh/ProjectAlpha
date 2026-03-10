@@ -18,6 +18,7 @@ public static class BattleSystem
             if (choice == "F")
             {
                 ResetStrengthBonus(player);
+                Console.Clear();
                 return false;
             }
 
@@ -44,6 +45,7 @@ public static class BattleSystem
             bool isPlayerHit = new Random().NextDouble() <= PlayerHitChance;
             if (!isPlayerHit)
             {
+                Console.Clear();
                 Console.WriteLine("Your attack missed!");
                 Console.WriteLine("The " + monster.Name + " has " + monster.CurrentHitPoints + " HP left.");
                 Console.WriteLine();
@@ -52,6 +54,7 @@ public static class BattleSystem
             {
                 int totalDamage = player.CurrentWeapon.MaximumDamage + player.StrengthBonus;
                 monster.TakeDamage(totalDamage);
+                Console.Clear();
                 Console.WriteLine($"You hit the {monster.Name} for {totalDamage} damage.");
                 Console.WriteLine("The " + monster.Name + " has " + monster.CurrentHitPoints + " HP left.");
                 Console.WriteLine();
@@ -60,12 +63,12 @@ public static class BattleSystem
             if (player.StrengthBonusTurnsLeft > 0)
             {
                 player.StrengthBonusTurnsLeft--;
-                Console.WriteLine($"Strength bonus: {player.StrengthBonusTurnsLeft} turns left.");
+                Console.WriteLine($"\nStrength bonus: {player.StrengthBonusTurnsLeft} turns left.");
 
                 if (player.StrengthBonusTurnsLeft == 0)
                 {
                     player.StrengthBonus = 0;
-                    Console.WriteLine("Your strength bonus has worn off.");
+                    Console.WriteLine("\nYour strength bonus has worn off.");
                 }
             }
 
