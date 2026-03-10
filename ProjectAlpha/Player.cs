@@ -65,10 +65,16 @@ public class Player
 
         int choiceInt = Convert.ToInt32(choice);
 
-        if(choiceInt != 1 && choiceInt != 2 && Weapons.Count != 2)
+        if (choiceInt != 1 && choiceInt != 2 && Weapons.Count == 2)
         {
             Console.WriteLine("Invalid choice, choice is not in the list!");
         }
+
+        else if (choiceInt != 1 && Weapons.Count == 1)
+        {
+            Console.WriteLine("Invalid choice, choice is not in the list!");
+        }
+
         else if (CurrentWeapon.ID == choiceInt)
         {
             Console.WriteLine("Invalid choice, weapon is already active!");
