@@ -1,3 +1,7 @@
+using System.Data;
+using System.Data.SqlTypes;
+using System.Diagnostics;
+using System.Reflection.Emit;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -12,6 +16,9 @@ public class Player
     public List<Weapon> Weapons { get; set; } = new List<Weapon>();
     public int StrengthBonus { get; set; } = 0;
     public int StrengthBonusTurnsLeft { get; set; } = 0;
+
+    public bool InventoryExit { get; set; } = false;
+    public bool ReturnToGame { get; set; } = false;
 
     public void TakeDamage(int damage)
     {
@@ -30,60 +37,80 @@ public class Player
     }
 
     public void ShowInventory()
-    {
-        Console.WriteLine("=== Inventory ===");
-        Console.WriteLine($"Current weapon: {CurrentWeapon.Name}");
-        Console.WriteLine($"All weapons:");
-        foreach (Weapon weapon in Weapons)
+    {   
+        while (!InventoryExit)
         {
-            Console.WriteLine($" - {weapon.Name}");
-        }
+            Console.Clear();
+            Console.WriteLine("\n=== Inventory ===");
+            Console.WriteLine($"Current weapon: {CurrentWeapon.Name}");
+            Console.WriteLine($"\nAll weapons:");
+            foreach (Weapon weapon in Weapons)
+            {
+                Console.WriteLine($" - {weapon.Name}");
+            }
 
-        if (Potions.Count == 0)
-        {
-            Console.WriteLine("Potions: none");
-        }
-        else
-        {
-            Console.WriteLine("Potions:");
-            foreach (Potion potion in Potions)
-                Console.WriteLine($"  - {potion.Name} ({(potion.HealAmount > 0 ? $"+{potion.HealAmount} HP" : $"+{potion.StrengthBonus} STR")})");
+            if (Potions.Count == 0)
+            {
+                Console.WriteLine("\nPotions: none");
+            }
+            else
+            {
+                Console.WriteLine("\nPotions:");
+                foreach (Potion potion in Potions)
+                    Console.WriteLine($"  - {potion.Name} ({(potion.HealAmount > 0 ? $"+{potion.HealAmount} HP" : $"+{potion.StrengthBonus} STR")})");
+            }
+            Console.WriteLine($"\nIf you wish to exit the inventory, enter 'E'");
+            if ((Console.ReadLine() ?? "").ToLower() == "e")
+            {
+                InventoryExit = true;
+                Console.Clear();
+            }
         }
     }
 
     public void SelectOutsideBattle()
-    {
-        Console.WriteLine("=== Select active weapon ===");
-        Console.WriteLine($"Current weapon: {CurrentWeapon.Name}");
-        Console.WriteLine($"All weapons:");
-        foreach (Weapon weapon in Weapons)
+    {   
+        while (!ReturnToGame)
         {
-            Console.WriteLine($"{weapon.ID} - {weapon.Name}");
+            Console.Clear();
+            Console.WriteLine("\n=== Select active weapon ===");
+            Console.WriteLine($"Current weapon: {CurrentWeapon.Name}");
+            Console.WriteLine($"All weapons:");
+            foreach (Weapon weapon in Weapons)
+            {
+                Console.WriteLine($"{weapon.ID} - {weapon.Name}");
+            }
+
+            string choice = Console.ReadLine();
+
+            int choiceInt = Convert.ToInt32(choice);
+
+            if (choiceInt != 1 && choiceInt != 2 && Weapons.Count == 2)
+            {
+                Console.WriteLine("Invalid choice, choice is not in the list!");
+            }
+
+            else if (choiceInt != 1 && Weapons.Count == 1)
+            {
+                Console.WriteLine("Invalid choice, choice is not in the list!");
+            }
+
+            else if (CurrentWeapon.ID == choiceInt)
+            {
+                Console.WriteLine("Invalid choice, weapon is already active!");
+            }
+            else
+            {
+                CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
+                Console.WriteLine($"You have selected the {CurrentWeapon.Name}");
+            }
+            
+            Console.WriteLine($"\nIf you want to continue slaying evil enemies with you mighty weapon enter 'E'");
+            if ((Console.ReadLine() ?? "").ToLower() == "e")
+            {
+                ReturnToGame = true;
+                Console.Clear();
+            }
         }
-
-        string choice = Console.ReadLine();
-
-        int choiceInt = Convert.ToInt32(choice);
-
-        if (choiceInt != 1 && choiceInt != 2 && Weapons.Count == 2)
-        {
-            Console.WriteLine("Invalid choice, choice is not in the list!");
-        }
-
-        else if (choiceInt != 1 && Weapons.Count == 1)
-        {
-            Console.WriteLine("Invalid choice, choice is not in the list!");
-        }
-
-        else if (CurrentWeapon.ID == choiceInt)
-        {
-            Console.WriteLine("Invalid choice, weapon is already active!");
-        }
-        else
-        {
-            CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
-            Console.WriteLine($"You have selected the {CurrentWeapon.Name}");
-        }
-
     }
 }

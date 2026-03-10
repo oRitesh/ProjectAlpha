@@ -1,4 +1,5 @@
 using System.Configuration.Assemblies;
+using System.Security;
 
 class Program
 {
@@ -31,7 +32,7 @@ class Program
             CheckForQuestCompletion(player);
             ShowAvailableDirections(player);
 
-            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> \n");
+            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> ");
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
@@ -48,6 +49,14 @@ class Program
                 continue;
             }
 
+            if (player.CurrentLocation.ID == World.LOCATION_ID_SPIDER_FIELD && completedQuests.Count == 3 && spidersKilled == 3)
+            {
+                Console.WriteLine($"\nCongrats, you've defeated all the monsters and finished the game, you will be remembered by the villagers for ages.");
+                Console.WriteLine($"Stats:\nRats killed: {ratsKilled}\nSnakes killed: {snakesKilled}\nSpiders killed: {spidersKilled}\nVillager happiness:  10/10");
+                Console.WriteLine($"You ended the game with:");
+                player.ShowInventory();
+                break;
+            }
             MovePlayer(player, input);
         }
     }
@@ -208,15 +217,19 @@ class Program
         switch (direction)
         {
             case "N":
+                Console.Clear();
                 newLocation = player.CurrentLocation.LocationToNorth;
                 break;
             case "E":
+                Console.Clear();
                 newLocation = player.CurrentLocation.LocationToEast;
                 break;
             case "S":
+                Console.Clear();
                 newLocation = player.CurrentLocation.LocationToSouth;
                 break;
             case "W":
+                Console.Clear();
                 newLocation = player.CurrentLocation.LocationToWest;
                 break;
             default:
