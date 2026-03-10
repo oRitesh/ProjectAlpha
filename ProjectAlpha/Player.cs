@@ -1,6 +1,3 @@
-using System.Configuration.Assemblies;
-using System.Runtime.CompilerServices;
-
 public class Player
 {
     public string Name { get; set; }
@@ -9,6 +6,7 @@ public class Player
     public Weapon CurrentWeapon { get; set; }
     public Location CurrentLocation { get; set; }
     public List<Potion> Potions { get; set; } = new List<Potion>();
+    public List<Weapon> Weapons { get; set; } = new List<Weapon>();
     public int StrengthBonus { get; set; } = 0;
     public int StrengthBonusTurnsLeft { get; set; } = 0;
 
@@ -28,11 +26,15 @@ public class Player
         CurrentLocation = currentLocation;
     }
 
-    //public static List<Object> Inventory();
     public void ShowInventory()
     {
         Console.WriteLine("=== Inventory ===");
-        Console.WriteLine($"Weapon: {CurrentWeapon.Name}");
+        Console.WriteLine($"Current weapon: {CurrentWeapon.Name}");
+        Console.WriteLine($"All weapons:");
+        foreach (Weapon weapon in Weapons)
+        {
+            Console.WriteLine($" - {weapon.Name}");
+        }
 
         if (Potions.Count == 0)
         {
