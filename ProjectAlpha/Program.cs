@@ -9,7 +9,6 @@ class Program
     static int spidersKilled = 0;
     static void Main()
     {
-        player.Weapons.Add(World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD));
         Player player = new Player(
             100,
             World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD),
