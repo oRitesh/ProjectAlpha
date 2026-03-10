@@ -137,7 +137,6 @@ class Program
             Console.WriteLine("[QUEST COMPLETE] Clear the alchemist's garden!");
             completedQuests.Add(World.QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
 
-            // Geef heal potion en strength potion als reward
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
             player.Potions.Add(World.PotionByID(World.POTION_ID_STRENGTH));
             Console.WriteLine("Reward: Heal Potion + Strength Potion added to your inventory!");
@@ -153,7 +152,6 @@ class Program
             Console.WriteLine("[QUEST COMPLETE] Clear the farmer's field!");
             completedQuests.Add(World.QUEST_ID_CLEAR_FARMERS_FIELD);
 
-            // Geef heal potion als reward
             player.Potions.Add(World.PotionByID(World.POTION_ID_HEAL));
             Console.WriteLine("Reward: Heal Potion added to your inventory!");
             Console.WriteLine("[NEW] Head to the Bridge for your next quest!");

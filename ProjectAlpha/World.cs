@@ -88,7 +88,7 @@ public static class World
     public static void PopulateItems()
     {
         Potions.Add(new Potion(POTION_ID_HEAL, "Heal Potion", 20));
-        Potions.Add(new Potion(POTION_ID_STRENGTH, "Strength Potion", 0, 10)); // +10 bonus damage voor 3 beurten
+        Potions.Add(new Potion(POTION_ID_STRENGTH, "Strength Potion", 0, 10));
     }
 
     public static void PopulateLocations()
