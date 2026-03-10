@@ -30,7 +30,7 @@ public static class BattleSystem
                     Console.WriteLine($"{i + 1} - {p.Name} ({effect})");
                 }
 
-                Console.Write("Kies een potion (of 0 om te annuleren): ");
+                Console.Write("Choose a potion (or 0 to cancel):\n");
                 if (int.TryParse(Console.ReadLine(), out int index) && index >= 1 && index <= player.Potions.Count)
                 {
                     Potion chosen = player.Potions[index - 1];

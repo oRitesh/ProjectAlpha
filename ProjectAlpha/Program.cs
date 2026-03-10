@@ -31,7 +31,7 @@ class Program
             CheckForQuestCompletion(player);
             ShowAvailableDirections(player);
 
-            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> ");
+            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> \n");
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
