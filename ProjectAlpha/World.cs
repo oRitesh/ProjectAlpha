@@ -4,6 +4,7 @@ public static class World
     public static readonly List<Monster> Monsters = new List<Monster>();
     public static readonly List<Quest> Quests = new List<Quest>();
     public static readonly List<Location> Locations = new List<Location>();
+    public static readonly List<Potion> Potions = new List<Potion>();
     public static readonly Random RandomGenerator = new Random();
 
     public const int WEAPON_ID_RUSTY_SWORD = 1;
@@ -27,12 +28,16 @@ public static class World
     public const int LOCATION_ID_BRIDGE = 8;
     public const int LOCATION_ID_SPIDER_FIELD = 9;
 
+    public const int POTION_ID_HEAL = 1;
+    public const int POTION_ID_STRENGTH = 2;
+
     static World()
     {
         PopulateWeapons();
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
+        PopulateItems();
     }
 
     public static void PopulateWeapons()
@@ -78,6 +83,12 @@ public static class World
         Quests.Add(clearAlchemistGarden);
         Quests.Add(clearFarmersField);
         Quests.Add(collectSpiderSilk);
+    }
+
+    public static void PopulateItems()
+    {
+        Potions.Add(new Potion(POTION_ID_HEAL, "Heal Potion", 20));
+        Potions.Add(new Potion(POTION_ID_STRENGTH, "Strength Potion", 0, 10)); // +10 bonus damage voor 3 beurten
     }
 
     public static void PopulateLocations()
@@ -168,6 +179,13 @@ public static class World
     {
         foreach (Quest quest in Quests)
             if (quest.ID == id) return quest;
+        return null;
+    }
+
+    public static Potion PotionByID(int id)
+    {
+        foreach (Potion potion in Potions)
+            if (potion.ID == id) return potion;
         return null;
     }
 }
