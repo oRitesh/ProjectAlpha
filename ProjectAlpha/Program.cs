@@ -63,14 +63,14 @@ class Program
         if (acceptedQuests.Contains(quest.ID)) return;
 
         Console.WriteLine($"[QUEST] {quest.Name}");
-        Console.WriteLine($"  {quest.Description}");
+        Console.WriteLine($"        {quest.Description}");
         Console.Write("Accept quest? (Y/N): ");
         string answer = (Console.ReadLine() ?? "").Trim().ToUpper();
 
         if (answer == "Y")
         {
             acceptedQuests.Add(quest.ID);
-            Console.WriteLine($"Quest accepted: {quest.Name}");
+            Console.WriteLine($"Quest accepted: {quest.Name}\n");
         }
         else if (answer == "N")
         {

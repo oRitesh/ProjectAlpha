@@ -20,8 +20,8 @@ public class Potion
             player.CurrentHitPoints += HealAmount;
             if (player.CurrentHitPoints > player.MaximumHitPoints)
                 player.CurrentHitPoints = player.MaximumHitPoints;
-            Console.WriteLine($"You used a {Name} and healed {HealAmount} HP!");
-            Console.WriteLine($"Your current HP: {player.CurrentHitPoints}/{player.MaximumHitPoints}");
+            Console.WriteLine($"\nYou used a {Name} and healed {HealAmount} HP!");
+            Console.WriteLine($"Your current HP: {player.CurrentHitPoints}/{player.MaximumHitPoints}\n");
         }
 
         if (StrengthBonus > 0)
