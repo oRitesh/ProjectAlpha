@@ -67,7 +67,7 @@ public class Player
 
         if (CurrentWeapon.ID != choiceInt)
         {
-            CurrentWeapon = Weapon.ID(choiceInt);
+            CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
         }
         else if(choiceInt != 1 || choiceInt != 2)
         {
