@@ -11,7 +11,7 @@ class Program
     static void Main()
     {
         Player player = new Player(
-            100,
+            40,
             World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD),
             World.LocationByID(World.LOCATION_ID_HOME),
             "Hero"
@@ -139,7 +139,7 @@ class Program
 
         else
         {
-            Console.WriteLine("You have defeated all the monsters in this location!");
+            Console.WriteLine("\nYou have defeated all the monsters in this location!");
             player.CurrentLocation.MonsterLivingHere = null;
         }
 
