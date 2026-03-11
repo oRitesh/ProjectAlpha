@@ -67,14 +67,6 @@ class Program
 
         if (quest == null) return;
 
-        if (player.CurrentLocation.ID == World.LOCATION_ID_GUARD_POST && completedQuests.Count != 2)
-        {
-            Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'\n");
-            Console.WriteLine("You returned to the town square.");
-            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
-            return;
-        }
-
         if (acceptedQuests.Contains(quest.ID)) return;
 
         Console.WriteLine($"[QUEST] {quest.Name}");
@@ -202,6 +194,15 @@ class Program
 
     static void ShowAvailableDirections(Player player)
     {
+
+        if (player.CurrentLocation.ID == World.LOCATION_ID_GUARD_POST && completedQuests.Count != 2)
+        {
+            Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'");
+            Console.WriteLine("You returned to the town square.\n");
+            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
+            return;
+        }
+
         Console.WriteLine("You can move:");
 
         if (player.CurrentLocation.LocationToNorth != null)
