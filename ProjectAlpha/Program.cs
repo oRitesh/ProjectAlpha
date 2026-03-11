@@ -32,7 +32,7 @@ class Program
             CheckForQuestCompletion(player);
             ShowAvailableDirections(player);
 
-            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit> ");
+            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit>\n-> ");
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
@@ -83,9 +83,11 @@ class Program
         else if (answer == "N")
         {
             player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
-            Console.WriteLine();
             Console.Clear();
-            Console.WriteLine("You declined the quest and returned to the town square.");
+            Console.WriteLine("You declined the quest and returned to the town square.\n");
+            Console.WriteLine("You are at: " + player.CurrentLocation.Name);
+            Console.WriteLine(player.CurrentLocation.Description);
+            Console.WriteLine();
         }
     }
 
@@ -194,15 +196,6 @@ class Program
 
     static void ShowAvailableDirections(Player player)
     {
-
-        if (player.CurrentLocation.ID == World.LOCATION_ID_GUARD_POST && completedQuests.Count != 2)
-        {
-            Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'");
-            Console.WriteLine("You returned to the town square.\n");
-            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
-            return;
-        }
-
         Console.WriteLine("You can move:");
 
         if (player.CurrentLocation.LocationToNorth != null)
@@ -250,6 +243,17 @@ class Program
         if (newLocation == null)
         {
             Console.WriteLine("You cannot go that way.");
+            return;
+        }
+
+        if (newLocation.ID == World.LOCATION_ID_GUARD_POST && completedQuests.Count != 2)
+        {
+            Console.WriteLine("You moved to: " + newLocation.Name);
+            Console.WriteLine("\nYou are at: " + newLocation.Name);
+            Console.WriteLine(newLocation.Description);
+            Console.WriteLine();
+            Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'");
+            Console.WriteLine("You return to the Town Square.");
             return;
         }
 
