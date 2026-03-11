@@ -41,6 +41,12 @@ public static class BattleSystem
                 continue;
             }
 
+            if (choice != "A")
+            {
+                Console.WriteLine("Invalid choice. Try again.");
+                continue;
+            }
+
             // Player attacks
             bool isPlayerHit = new Random().NextDouble() <= PlayerHitChance;
             if (!isPlayerHit)
