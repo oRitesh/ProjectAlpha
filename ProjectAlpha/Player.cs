@@ -37,7 +37,7 @@ public class Player
     }
 
     public void ShowInventory()
-    {   
+    {
         while (!InventoryExit)
         {
             Console.Clear();
@@ -69,7 +69,7 @@ public class Player
     }
 
     public void SelectOutsideBattle()
-    {   
+    {
         while (!ReturnToGame)
         {
             Console.Clear();
@@ -81,35 +81,52 @@ public class Player
                 Console.WriteLine($"{weapon.ID} - {weapon.Name}");
             }
 
-            string choice = Console.ReadLine();
+            Console.Write($"\nEnter 'E' if you want to continue slaying evil enemies with you mighty weapon\n-> ");
 
-            int choiceInt = Convert.ToInt32(choice);
+            string choice = (Console.ReadLine() ?? "").Trim();
+            if (choice.ToLower() == "e")
+            {
+                ReturnToGame = true;
+                Console.Clear();
+                return;
+            }
 
-            if (choiceInt != 1 && choiceInt != 2 && Weapons.Count == 2)
+            int choiceInt;
+
+            if (!int.TryParse(choice, out choiceInt))
+            {
+                Console.WriteLine("Invalid choice");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
+            }
+
+            else if (choiceInt != 1 && choiceInt != 2 && Weapons.Count == 2)
             {
                 Console.WriteLine("Invalid choice, choice is not in the list!");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
             }
 
             else if (choiceInt != 1 && Weapons.Count == 1)
             {
                 Console.WriteLine("Invalid choice, choice is not in the list!");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
             }
 
             else if (CurrentWeapon.ID == choiceInt)
             {
                 Console.WriteLine("Invalid choice, weapon is already active!");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
             }
+
             else
             {
                 CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
                 Console.WriteLine($"You have selected the {CurrentWeapon.Name}");
-            }
-            
-            Console.WriteLine($"\nIf you want to continue slaying evil enemies with you mighty weapon enter 'E'");
-            if ((Console.ReadLine() ?? "").ToLower() == "e")
-            {
-                ReturnToGame = true;
-                Console.Clear();
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
             }
         }
     }

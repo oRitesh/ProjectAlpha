@@ -46,6 +46,7 @@ class Program
             if (input == "C")
             {
                 player.SelectOutsideBattle();
+                player.ReturnToGame = false;
                 continue;
             }
             MovePlayer(player, input);
