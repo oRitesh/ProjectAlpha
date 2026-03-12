@@ -28,18 +28,18 @@ class Program
 
             CheckForQuest(player);
             CheckForHealing(player);
-
-            bool battled = CheckForMonster(player);
             CheckForQuestCompletion(player);
-
-            if (battled)
-            {
-                continue;
-            }
-
             ShowAvailableDirections(player);
 
-            Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit>\n-> ");
+            if (player.CurrentLocation.MonsterLivingHere != null)
+            {
+                Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit>\n- K to keep battling>\n-> ");
+            }
+            else
+            {
+                Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit>\n-> ");
+            }
+
             string input = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (input == "Q")
@@ -53,12 +53,19 @@ class Program
             if (input == "C")
             {
                 player.SelectOutsideBattle();
-                player.ReturnToGame = false;
                 continue;
             }
+            if (input == "K" && (player.CurrentLocation.ID == World.LOCATION_ID_ALCHEMISTS_GARDEN || player.CurrentLocation.ID == World.LOCATION_ID_FARM_FIELD || player.CurrentLocation.ID == World.LOCATION_ID_SPIDER_FIELD))
+            {
+                Console.Clear();
+                CheckForMonster(player);
+                continue;
+            }
+
             MovePlayer(player, input);
         }
     }
+
     static void CheckForHealing(Player player)
     {
         if (player.CurrentLocation.ID == World.LOCATION_ID_HOME
@@ -76,35 +83,49 @@ class Program
 
         if (acceptedQuests.Contains(quest.ID)) return;
 
-        Console.WriteLine($"[QUEST] {quest.Name}");
-        Console.WriteLine($"        {quest.Description}");
-        Console.Write("\nAccept quest? (Y/N): ");
-        string answer = (Console.ReadLine() ?? "").Trim().ToUpper();
+        while (true)
+        {
+            Console.WriteLine($"\n[QUEST] {quest.Name}");
+            Console.WriteLine($"        {quest.Description}");
+            Console.Write("\nAccept quest? (Y/N): ");
+            string answer = (Console.ReadLine() ?? "").Trim().ToUpper();
 
-        if (answer == "Y")
-        {
-            acceptedQuests.Add(quest.ID);
-            //Console.Clear();
-            Console.WriteLine($"Quest accepted: {quest.Name}\n");
-        }
-        else if (answer == "N")
-        {
-            player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
-            Console.Clear();
-            Console.WriteLine("You declined the quest and returned to the town square.\n");
-            Console.WriteLine("You are at: " + player.CurrentLocation.Name);
-            Console.WriteLine(player.CurrentLocation.Description);
-            Console.WriteLine();
+            if (answer == "Y")
+            {
+                acceptedQuests.Add(quest.ID);
+                //Console.Clear();
+                Console.WriteLine($"Quest accepted: {quest.Name}\n");
+                break;
+            }
+            else if (answer == "N")
+            {
+                player.CurrentLocation = World.LocationByID(World.LOCATION_ID_TOWN_SQUARE);
+                Console.Clear();
+                Console.WriteLine("You declined the quest and returned to the town square.\n");
+                Console.WriteLine("You are at: " + player.CurrentLocation.Name);
+                Console.WriteLine(player.CurrentLocation.Description);
+                Console.WriteLine();
+                break;
+            }
+
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter 'Y' or 'N'.");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
     }
 
-    static bool CheckForMonster(Player player)
+    static void CheckForMonster(Player player)
     {
+
         Monster monster = player.CurrentLocation.MonsterLivingHere;
 
         if (monster == null)
         {
-            return false;
+            return;
         }
 
         bool battleResult = BattleSystem.StartBattle(player, monster);
@@ -117,8 +138,7 @@ class Program
 
         if (!battleResult)
         {
-            Console.WriteLine("You fled from the battle.");
-            return false; // let player choose where to move next
+            return;
         }
 
         if (monster.ID == World.MONSTER_ID_RAT) ratsKilled++;
@@ -139,15 +159,16 @@ class Program
 
         if (currentKills < 3)
         {
-            monster.CurrentHitPoints = monster.MaximumHitPoints;
-            return true; // won battle, fight again next loop
+            monster.CurrentHitPoints = monster.MaximumDamage; // Reset monster's HP for next battle
+            return;
         }
+
         else
         {
             Console.WriteLine("\nYou have defeated all the monsters in this location!");
             player.CurrentLocation.MonsterLivingHere = null;
-            return true;
         }
+
     }
     static void CheckForQuestCompletion(Player player)
     {
@@ -240,14 +261,21 @@ class Program
                 Console.Clear();
                 newLocation = player.CurrentLocation.LocationToWest;
                 break;
+
             default:
                 Console.WriteLine("Invalid direction.");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
+                Console.Clear();
                 return;
         }
 
         if (newLocation == null)
         {
             Console.WriteLine("You cannot go that way.");
+            Console.WriteLine("Press any key to try again...");
+            Console.ReadKey();
+            Console.Clear();
             return;
         }
 
@@ -259,10 +287,13 @@ class Program
             Console.WriteLine();
             Console.WriteLine("Guard: 'Turn back at once, peasant! Unless thee hast proof of thy grit!'");
             Console.WriteLine("You return to the Town Square.");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
             return;
         }
 
         player.CurrentLocation = newLocation;
         Console.WriteLine("You moved to: " + player.CurrentLocation.Name);
+        CheckForMonster(player);
     }
 }

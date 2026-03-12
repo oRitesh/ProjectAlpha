@@ -4,20 +4,29 @@ public static class BattleSystem
     {
         double PlayerHitChance = 0.8; // 80% chance to hit
         double MonsterHitChance = 0.7; // 70% chance to hit
-        Console.WriteLine($"You are battling a {monster.Name}.");
 
         while (player.CurrentHitPoints > 0 && monster.CurrentHitPoints > 0)
         {
+            Console.WriteLine($"\nYou are battling a {monster.Name}.");
             Console.WriteLine("A - Attack");
-            Console.WriteLine("F - Flee");
-            if (player.Potions.Count > 0)
-                Console.WriteLine("U - Use Potion");
+            if (player.Potions.Count <= 0)
+            {
+                Console.Write("F - Flee\n-> ");
+            }
+            else
+            {
+                Console.Write("F - Flee ");
+                Console.WriteLine("U - Use Potion\n-> ");
+            }
 
             string choice = (Console.ReadLine() ?? "").Trim().ToUpper();
 
             if (choice == "F")
             {
                 ResetStrengthBonus(player);
+                Console.WriteLine("You fled from the battle.");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
                 Console.Clear();
                 return false;
             }
@@ -38,12 +47,17 @@ public static class BattleSystem
                     chosen.Use(player);
                     player.Potions.RemoveAt(index - 1);
                 }
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+                Console.Clear();
                 continue;
             }
 
             if (choice != "A")
             {
                 Console.WriteLine("Invalid choice. Try again.");
+                Console.ReadKey();
+                Console.Clear();
                 continue;
             }
 
