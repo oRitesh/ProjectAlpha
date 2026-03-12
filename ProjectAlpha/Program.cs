@@ -28,8 +28,15 @@ class Program
 
             CheckForQuest(player);
             CheckForHealing(player);
-            CheckForMonster(player);
+
+            bool battled = CheckForMonster(player);
             CheckForQuestCompletion(player);
+
+            if (battled)
+            {
+                continue;
+            }
+
             ShowAvailableDirections(player);
 
             Console.Write("Choose an option:\n- Enter direction (N/E/S/W)>\n- I for inventory>\n- C to change weapon>\n- Q to quit>\n-> ");
@@ -52,7 +59,6 @@ class Program
             MovePlayer(player, input);
         }
     }
-
     static void CheckForHealing(Player player)
     {
         if (player.CurrentLocation.ID == World.LOCATION_ID_HOME
@@ -92,14 +98,13 @@ class Program
         }
     }
 
-    static void CheckForMonster(Player player)
+    static bool CheckForMonster(Player player)
     {
-
         Monster monster = player.CurrentLocation.MonsterLivingHere;
 
         if (monster == null)
         {
-            return;
+            return false;
         }
 
         bool battleResult = BattleSystem.StartBattle(player, monster);
@@ -113,7 +118,7 @@ class Program
         if (!battleResult)
         {
             Console.WriteLine("You fled from the battle.");
-            return;
+            return false; // let player choose where to move next
         }
 
         if (monster.ID == World.MONSTER_ID_RAT) ratsKilled++;
@@ -134,16 +139,15 @@ class Program
 
         if (currentKills < 3)
         {
-            monster.CurrentHitPoints = monster.MaximumDamage; // Reset monster's HP for next battle
-            return;
+            monster.CurrentHitPoints = monster.MaximumHitPoints;
+            return true; // won battle, fight again next loop
         }
-
         else
         {
             Console.WriteLine("\nYou have defeated all the monsters in this location!");
             player.CurrentLocation.MonsterLivingHere = null;
+            return true;
         }
-
     }
     static void CheckForQuestCompletion(Player player)
     {
