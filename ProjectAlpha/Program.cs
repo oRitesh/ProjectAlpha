@@ -77,7 +77,7 @@ class Program
         if (answer == "Y")
         {
             acceptedQuests.Add(quest.ID);
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine($"Quest accepted: {quest.Name}\n");
         }
         else if (answer == "N")
