@@ -287,6 +287,7 @@ class Program
             Console.WriteLine("You return to the Town Square.");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+            Console.Clear();
             return;
         }
 

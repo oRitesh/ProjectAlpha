@@ -4,6 +4,7 @@ public static class BattleSystem
     {
         double PlayerHitChance = 0.8; // 80% chance to hit
         double MonsterHitChance = 0.7; // 70% chance to hit
+        Console.WriteLine($"A wild {monster.Name} appears!");
 
         while (player.CurrentHitPoints > 0 && monster.CurrentHitPoints > 0)
         {
