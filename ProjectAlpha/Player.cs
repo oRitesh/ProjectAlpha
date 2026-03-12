@@ -125,7 +125,6 @@ public class Player
             {
                 CurrentWeapon = Weapons.FirstOrDefault(weapon => weapon.ID == choiceInt);
                 Console.WriteLine($"You have selected the {CurrentWeapon.Name}");
-                Console.WriteLine("Press any key to try again...");
                 Console.ReadKey();
             }
         }
