@@ -15,8 +15,8 @@ public static class BattleSystem
             }
             else
             {
-                Console.Write("F - Flee ");
-                Console.WriteLine("U - Use Potion\n-> ");
+                Console.WriteLine("F - Flee ");
+                Console.Write("U - Use Potion\n-> ");
             }
 
             string choice = (Console.ReadLine() ?? "").Trim().ToUpper();
