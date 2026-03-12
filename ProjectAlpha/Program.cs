@@ -214,8 +214,6 @@ class Program
             Console.WriteLine($"\nCongrats, you've defeated all the monsters and finished the game!");
             Console.WriteLine($"Stats:\nRats killed: {ratsKilled}\nSnakes killed: {snakesKilled}\nSpiders killed: {spidersKilled}\nVillager happiness: 10/10");
             Console.WriteLine($"You ended the game with: {player.CurrentHitPoints} HP");
-            Console.WriteLine($"This is what your inventory was looking like:");
-            player.ShowInventory();
             Environment.Exit(0);
         }
     }
